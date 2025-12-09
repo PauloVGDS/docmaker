@@ -1,4 +1,4 @@
-export type BlockType = 'cover' | 'section' | 'image' | 'table' | 'list' | 'text' | 'section-table' | 'section-list'
+export type BlockType = 'cover' | 'cover-detailed' | 'section' | 'image' | 'table' | 'list' | 'text' | 'section-table' | 'section-list' | 'section-text' | 'section-image'
 
 export interface BaseBlock {
   id: string
@@ -72,8 +72,39 @@ export interface SectionListBlock extends BaseBlock {
   }
 }
 
+export interface SectionTextBlock extends BaseBlock {
+  type: 'section-text'
+  data: {
+    title: string
+    level: 1 | 2 | 3
+    content: string
+  }
+}
+
+export interface SectionImageBlock extends BaseBlock {
+  type: 'section-image'
+  data: {
+    title: string
+    level: 1 | 2 | 3
+    image: string | null
+    description: string
+  }
+}
+
+export interface CoverDetailedBlock extends BaseBlock {
+  type: 'cover-detailed'
+  data: {
+    title: string
+    image: string | null
+    machineName: string
+    responsibleName: string
+    date: string
+  }
+}
+
 export type Block =
   | CoverBlock
+  | CoverDetailedBlock
   | SectionBlock
   | ImageBlock
   | TableBlock
@@ -81,9 +112,12 @@ export type Block =
   | TextBlock
   | SectionTableBlock
   | SectionListBlock
+  | SectionTextBlock
+  | SectionImageBlock
 
 export const BLOCK_LABELS: Record<BlockType, string> = {
   cover: 'Capa',
+  'cover-detailed': 'Capa Detalhada',
   section: 'Seção',
   image: 'Imagem',
   table: 'Tabela',
@@ -91,10 +125,13 @@ export const BLOCK_LABELS: Record<BlockType, string> = {
   text: 'Texto',
   'section-table': 'Seção + Tabela',
   'section-list': 'Seção + Lista',
+  'section-text': 'Seção + Texto',
+  'section-image': 'Seção + Imagem',
 }
 
 export const BLOCK_DESCRIPTIONS: Record<BlockType, string> = {
   cover: 'Página de capa com imagem e título',
+  'cover-detailed': 'Capa com máquina, responsável e data',
   section: 'Título de seção',
   image: 'Imagem com descrição numerada',
   table: 'Tabela editável',
@@ -102,4 +139,6 @@ export const BLOCK_DESCRIPTIONS: Record<BlockType, string> = {
   text: 'Bloco de texto simples',
   'section-table': 'Título de seção com tabela abaixo',
   'section-list': 'Título de seção com lista abaixo',
+  'section-text': 'Título de seção com texto abaixo',
+  'section-image': 'Título de seção com imagem abaixo',
 }

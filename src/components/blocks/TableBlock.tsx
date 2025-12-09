@@ -87,7 +87,7 @@ export function TableBlock({ block }: TableBlockProps) {
       <div className="overflow-x-auto">
         <table className="w-full border-collapse border border-gray-300">
           <thead>
-            <tr className="bg-gray-100">
+            <tr className="bg-[#fcc603]">
               {block.data.headers.map((header, index) => (
                 <th key={index} className="border border-gray-300 p-2">
                   <input

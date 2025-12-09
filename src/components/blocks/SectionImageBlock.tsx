@@ -1,16 +1,22 @@
 import { useRef } from 'react'
 import { Upload, X } from 'lucide-react'
-import { ImageBlock as ImageBlockType } from '@/types'
+import { SectionImageBlock as SectionImageBlockType } from '@/types'
 import { useDocument } from '@/contexts'
 import { fileToBase64, compressImage } from '@/utils'
 
-interface ImageBlockProps {
-  block: ImageBlockType
+interface SectionImageBlockProps {
+  block: SectionImageBlockType
 }
 
-export function ImageBlock({ block }: ImageBlockProps) {
+export function SectionImageBlock({ block }: SectionImageBlockProps) {
   const { document, updateBlock } = useDocument()
   const fileInputRef = useRef<HTMLInputElement>(null)
+
+  const fontSizes = {
+    1: 'text-2xl',
+    2: 'text-xl',
+    3: 'text-lg',
+  }
 
   // Calculate image number based on position (counting both 'image' and 'section-image' blocks)
   const imageNumber = document.blocks
@@ -23,15 +29,41 @@ export function ImageBlock({ block }: ImageBlockProps) {
 
     const base64 = await fileToBase64(file)
     const compressed = await compressImage(base64)
-    updateBlock<ImageBlockType>(block.id, { image: compressed })
+    updateBlock<SectionImageBlockType>(block.id, { image: compressed })
   }
 
   const handleRemoveImage = () => {
-    updateBlock<ImageBlockType>(block.id, { image: '' })
+    updateBlock<SectionImageBlockType>(block.id, { image: null })
   }
 
   return (
-    <div className="py-4">
+    <div className="py-2">
+      {/* Section Title */}
+      <div className="flex items-center gap-2 mb-3">
+        <select
+          value={block.data.level}
+          onChange={(e) =>
+            updateBlock<SectionImageBlockType>(block.id, {
+              level: parseInt(e.target.value) as 1 | 2 | 3,
+            })
+          }
+          className="text-sm border border-gray-300 rounded px-2 py-1 bg-white"
+        >
+          <option value={1}>H1</option>
+          <option value={2}>H2</option>
+          <option value={3}>H3</option>
+        </select>
+        <input
+          type="text"
+          value={block.data.title}
+          onChange={(e) =>
+            updateBlock<SectionImageBlockType>(block.id, { title: e.target.value })
+          }
+          className={`flex-1 font-bold bg-transparent border-none outline-none focus:ring-0 ${fontSizes[block.data.level]}`}
+          placeholder="Titulo da secao"
+        />
+      </div>
+
       {/* Image area */}
       <div className="flex justify-center mb-2">
         {block.data.image ? (
@@ -73,7 +105,7 @@ export function ImageBlock({ block }: ImageBlockProps) {
           type="text"
           value={block.data.description}
           onChange={(e) =>
-            updateBlock<ImageBlockType>(block.id, { description: e.target.value })
+            updateBlock<SectionImageBlockType>(block.id, { description: e.target.value })
           }
           className="text-sm italic text-gray-600 bg-transparent border-none outline-none focus:ring-0"
           placeholder="Descrição da imagem"

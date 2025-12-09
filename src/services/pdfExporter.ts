@@ -53,7 +53,7 @@ function convertBlockToPdf(block: Block, imageCounter: ImageCounter, pageSize: s
         fontSize: 24,
         bold: true,
         alignment: 'center',
-        color: block.data.image ? 'white' : 'black',
+        color: 'black',
         absolutePosition: { x: 0, y: pageHeight - 120 }, // Proximo ao final da pagina
         width: pageWidth,
       })
@@ -84,16 +84,16 @@ function convertBlockToPdf(block: Block, imageCounter: ImageCounter, pageSize: s
       return [
         {
           image: block.data.image,
-          width: PDF_CONFIG.imageWidthPt,
+          fit: [PDF_CONFIG.imageWidthPt, 600],
           alignment: 'center',
-          margin: [0, 10, 0, 5],
+          margin: [0, 10, 0, 0],
         },
         {
           text: `Figura ${imageCounter.count}: ${block.data.description}`,
           fontSize: PDF_CONFIG.descriptionFontSize,
           italics: true,
           alignment: 'center',
-          margin: [0, 0, 0, 15],
+          margin: [0, 5, 0, 15],
         },
       ]
 
@@ -107,7 +107,7 @@ function convertBlockToPdf(block: Block, imageCounter: ImageCounter, pageSize: s
               text: h,
               bold: true,
               fontSize: PDF_CONFIG.textFontSize,
-              fillColor: '#f3f4f6',
+              fillColor: '#fcc603',
             })),
             ...block.data.rows.map((row) =>
               row.map((cell) => ({
@@ -165,7 +165,7 @@ function convertBlockToPdf(block: Block, imageCounter: ImageCounter, pageSize: s
                 text: h,
                 bold: true,
                 fontSize: PDF_CONFIG.textFontSize,
-                fillColor: '#f3f4f6',
+                fillColor: '#fcc603',
               })),
               ...block.data.rows.map((row) =>
                 row.map((cell) => ({
@@ -202,6 +202,131 @@ function convertBlockToPdf(block: Block, imageCounter: ImageCounter, pageSize: s
       ]
     }
 
+    case 'section-text': {
+      const sectionTextSizes = { 1: 16, 2: 14, 3: 12 }
+      return [
+        {
+          text: block.data.title,
+          fontSize: sectionTextSizes[block.data.level] || PDF_CONFIG.titleFontSize,
+          bold: true,
+          margin: [0, 15, 0, 10],
+        },
+        {
+          text: block.data.content,
+          fontSize: PDF_CONFIG.textFontSize,
+          margin: [0, 0, 0, 10],
+          lineHeight: 1.4,
+        },
+      ]
+    }
+
+    case 'section-image': {
+      const sectionImageSizes = { 1: 16, 2: 14, 3: 12 }
+      if (!block.data.image) {
+        return [
+          {
+            text: block.data.title,
+            fontSize: sectionImageSizes[block.data.level] || PDF_CONFIG.titleFontSize,
+            bold: true,
+            margin: [0, 15, 0, 10],
+          },
+        ]
+      }
+
+      imageCounter.count++
+      return [
+        {
+          stack: [
+            {
+              text: block.data.title,
+              fontSize: sectionImageSizes[block.data.level] || PDF_CONFIG.titleFontSize,
+              bold: true,
+              margin: [0, 15, 0, 10],
+            },
+            {
+              image: block.data.image,
+              fit: [PDF_CONFIG.imageWidthPt, 600],
+              alignment: 'center',
+              margin: [0, 0, 0, 0],
+            },
+            {
+              text: `Figura ${imageCounter.count}: ${block.data.description}`,
+              fontSize: PDF_CONFIG.descriptionFontSize,
+              italics: true,
+              alignment: 'center',
+              margin: [0, 5, 0, 15],
+            },
+          ],
+          unbreakable: true,
+        },
+      ]
+    }
+
+    case 'cover-detailed': {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const coverDetailedContent: any[] = []
+
+      if (block.data.image) {
+        // Imagem preenchendo toda a pagina
+        coverDetailedContent.push({
+          image: block.data.image,
+          width: pageWidth,
+          height: pageHeight,
+          absolutePosition: { x: 0, y: 0 },
+        })
+      }
+
+      // Titulo centralizado na parte inferior
+      coverDetailedContent.push({
+        text: block.data.title,
+        fontSize: 24,
+        bold: true,
+        alignment: 'center',
+        color: 'black',
+        absolutePosition: { x: 0, y: pageHeight - 180 },
+        width: pageWidth,
+      })
+
+      // Campos adicionais alinhados a esquerda
+      const detailsY = pageHeight - 140
+      const leftMargin = 60
+
+      if (block.data.machineName) {
+        coverDetailedContent.push({
+          text: `Máquina: ${block.data.machineName}`,
+          fontSize: 14,
+          color: 'black',
+          absolutePosition: { x: leftMargin, y: detailsY },
+        })
+      }
+
+      if (block.data.responsibleName) {
+        coverDetailedContent.push({
+          text: `Responsável: ${block.data.responsibleName}`,
+          fontSize: 14,
+          color: 'black',
+          absolutePosition: { x: leftMargin, y: detailsY + 20 },
+        })
+      }
+
+      if (block.data.date) {
+        coverDetailedContent.push({
+          text: `Data: ${block.data.date}`,
+          fontSize: 14,
+          color: 'black',
+          absolutePosition: { x: leftMargin, y: detailsY + 40 },
+        })
+      }
+
+      // Page break after cover
+      coverDetailedContent.push({
+        text: '',
+        pageBreak: 'after',
+      })
+
+      return coverDetailedContent
+    }
+
     default:
       return []
   }
@@ -222,7 +347,7 @@ function buildPdfContent(blocks: Block[], pageSize: string): any[] {
 }
 
 export async function exportToPdf(doc: Document): Promise<void> {
-  const hasCover = doc.blocks.length > 0 && doc.blocks[0].type === 'cover'
+  const hasCover = doc.blocks.length > 0 && (doc.blocks[0].type === 'cover' || doc.blocks[0].type === 'cover-detailed')
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const docDefinition: any = {

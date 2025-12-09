@@ -86,5 +86,38 @@ export function createBlock(type: BlockType): Block {
           items: ['Item 1', 'Item 2', 'Item 3'],
         },
       }
+    case 'section-text':
+      return {
+        id,
+        type: 'section-text',
+        data: {
+          title: 'Nova Seção',
+          level: 1,
+          content: 'Digite o texto aqui...',
+        },
+      }
+    case 'section-image':
+      return {
+        id,
+        type: 'section-image',
+        data: {
+          title: 'Nova Seção',
+          level: 1,
+          image: null,
+          description: 'Descrição da imagem',
+        },
+      }
+    case 'cover-detailed':
+      return {
+        id,
+        type: 'cover-detailed',
+        data: {
+          title: 'Título do Documento',
+          image: null,
+          machineName: '',
+          responsibleName: '',
+          date: '',
+        },
+      }
   }
 }

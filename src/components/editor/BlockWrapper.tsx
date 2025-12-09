@@ -71,14 +71,14 @@ export function BlockWrapper({ block, index, children }: BlockWrapperProps) {
       >
         <button
           onClick={handleDuplicate}
-          className="p-1 rounded hover:bg-gray-100"
+          className="p-2 rounded hover:bg-gray-100"
           title="Duplicar"
         >
           <Copy size={16} className="text-gray-400" />
         </button>
         <button
           onClick={() => deleteBlock(block.id)}
-          className="p-1 rounded hover:bg-red-50"
+          className="p-2 rounded hover:bg-red-50"
           title="Excluir"
         >
           <Trash2 size={16} className="text-red-400" />

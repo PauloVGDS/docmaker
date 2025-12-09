@@ -8,11 +8,15 @@ import {
   Heading,
   TableProperties,
   ListTree,
+  FileText,
+  ImagePlus,
+  FileSpreadsheet,
 } from 'lucide-react'
 import { BlockType, BLOCK_LABELS, BLOCK_DESCRIPTIONS } from '@/types'
 
 const BLOCK_ICONS: Record<BlockType, React.ElementType> = {
   cover: FileImage,
+  'cover-detailed': FileSpreadsheet,
   section: Heading,
   image: Image,
   table: Table,
@@ -20,6 +24,8 @@ const BLOCK_ICONS: Record<BlockType, React.ElementType> = {
   text: Type,
   'section-table': TableProperties,
   'section-list': ListTree,
+  'section-text': FileText,
+  'section-image': ImagePlus,
 }
 
 interface DraggableBlockProps {
@@ -58,7 +64,19 @@ function DraggableBlock({ type }: DraggableBlockProps) {
 }
 
 export function Sidebar() {
-  const blockTypes: BlockType[] = ['cover', 'section', 'text', 'image', 'table', 'list', 'section-table', 'section-list']
+  const blockTypes: BlockType[] = [
+    'cover',
+    'cover-detailed',
+    'section',
+    'text',
+    'image',
+    'table',
+    'list',
+    'section-table',
+    'section-list',
+    'section-text',
+    'section-image',
+  ]
 
   return (
     <aside className="w-72 bg-gray-50 border-r border-gray-200 p-4 flex flex-col h-full overflow-hidden">

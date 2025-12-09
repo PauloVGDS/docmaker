@@ -184,7 +184,7 @@ async function convertBlockToDocx(
                     alignment: AlignmentType.CENTER,
                   }),
                 ],
-                shading: { fill: 'f3f4f6' },
+                shading: { fill: 'fcc603' },
               })
           ),
         }),
@@ -284,7 +284,7 @@ async function convertBlockToDocx(
                     alignment: AlignmentType.CENTER,
                   }),
                 ],
-                shading: { fill: 'f3f4f6' },
+                shading: { fill: 'fcc603' },
               })
           ),
         }),
@@ -377,6 +377,208 @@ async function convertBlockToDocx(
       )
 
       return [titleParagraph, ...listItems]
+    }
+
+    case 'section-text': {
+      const sectionTextHeadingLevels = {
+        1: HeadingLevel.HEADING_1,
+        2: HeadingLevel.HEADING_2,
+        3: HeadingLevel.HEADING_3,
+      }
+      return [
+        new Paragraph({
+          children: [
+            new TextRun({
+              text: block.data.title,
+              bold: true,
+              size: DOCX_CONFIG.titleFontSize,
+            }),
+          ],
+          heading: sectionTextHeadingLevels[block.data.level],
+          spacing: { before: 300, after: 200 },
+        }),
+        new Paragraph({
+          children: [
+            new TextRun({
+              text: block.data.content,
+              size: DOCX_CONFIG.textFontSize,
+            }),
+          ],
+          spacing: { before: 100, after: 100, line: 360 },
+        }),
+      ]
+    }
+
+    case 'section-image': {
+      const sectionImageHeadingLevels = {
+        1: HeadingLevel.HEADING_1,
+        2: HeadingLevel.HEADING_2,
+        3: HeadingLevel.HEADING_3,
+      }
+
+      if (!block.data.image) {
+        return [
+          new Paragraph({
+            children: [
+              new TextRun({
+                text: block.data.title,
+                bold: true,
+                size: DOCX_CONFIG.titleFontSize,
+              }),
+            ],
+            heading: sectionImageHeadingLevels[block.data.level],
+            spacing: { before: 300, after: 200 },
+          }),
+        ]
+      }
+
+      imageCounter.count++
+      const secImgBuffer = await base64ToArrayBuffer(block.data.image)
+      const secImgDims = await getImageDimensions(block.data.image)
+      const secImgAspectRatio = secImgDims.height / secImgDims.width
+      const secImgWidthPx = 491 // 13cm at 96dpi
+      const secImgHeightPx = Math.round(secImgWidthPx * secImgAspectRatio)
+
+      return [
+        new Paragraph({
+          children: [
+            new TextRun({
+              text: block.data.title,
+              bold: true,
+              size: DOCX_CONFIG.titleFontSize,
+            }),
+          ],
+          heading: sectionImageHeadingLevels[block.data.level],
+          spacing: { before: 300, after: 200 },
+          keepNext: true,
+        }),
+        new Paragraph({
+          children: [
+            new ImageRun({
+              data: secImgBuffer,
+              transformation: {
+                width: secImgWidthPx,
+                height: secImgHeightPx,
+              },
+              type: 'png',
+            }),
+          ],
+          alignment: AlignmentType.CENTER,
+          spacing: { before: 200, after: 100 },
+          keepNext: true,
+        }),
+        new Paragraph({
+          children: [
+            new TextRun({
+              text: `Figura ${imageCounter.count}: ${block.data.description}`,
+              italics: true,
+              size: DOCX_CONFIG.textFontSize,
+            }),
+          ],
+          alignment: AlignmentType.CENTER,
+          spacing: { after: 300 },
+        }),
+      ]
+    }
+
+    case 'cover-detailed': {
+      const coverDetailedElements: Paragraph[] = []
+
+      if (block.data.image) {
+        const buffer = await base64ToArrayBuffer(block.data.image)
+        const dims = await getImageDimensions(block.data.image)
+        const aspectRatio = dims.height / dims.width
+        const widthEmu = 5500000 // ~15cm
+        const heightEmu = Math.round(widthEmu * aspectRatio)
+
+        coverDetailedElements.push(
+          new Paragraph({
+            children: [
+              new ImageRun({
+                data: buffer,
+                transformation: {
+                  width: widthEmu / 9525,
+                  height: heightEmu / 9525,
+                },
+                type: 'png',
+              }),
+            ],
+            alignment: AlignmentType.CENTER,
+            spacing: { before: 1000, after: 600 },
+          })
+        )
+      }
+
+      // Titulo centralizado
+      coverDetailedElements.push(
+        new Paragraph({
+          children: [
+            new TextRun({
+              text: block.data.title,
+              bold: true,
+              size: 56,
+            }),
+          ],
+          alignment: AlignmentType.CENTER,
+          spacing: { before: 400, after: 300 },
+        })
+      )
+
+      // Campos adicionais alinhados a esquerda
+      if (block.data.machineName) {
+        coverDetailedElements.push(
+          new Paragraph({
+            children: [
+              new TextRun({
+                text: `Máquina: ${block.data.machineName}`,
+                size: 28,
+              }),
+            ],
+            alignment: AlignmentType.LEFT,
+            spacing: { before: 100 },
+          })
+        )
+      }
+
+      if (block.data.responsibleName) {
+        coverDetailedElements.push(
+          new Paragraph({
+            children: [
+              new TextRun({
+                text: `Responsável: ${block.data.responsibleName}`,
+                size: 28,
+              }),
+            ],
+            alignment: AlignmentType.LEFT,
+            spacing: { before: 100 },
+          })
+        )
+      }
+
+      if (block.data.date) {
+        coverDetailedElements.push(
+          new Paragraph({
+            children: [
+              new TextRun({
+                text: `Data: ${block.data.date}`,
+                size: 28,
+              }),
+            ],
+            alignment: AlignmentType.LEFT,
+            spacing: { before: 100 },
+          })
+        )
+      }
+
+      // Page break after cover
+      coverDetailedElements.push(
+        new Paragraph({
+          children: [],
+          pageBreakBefore: true,
+        })
+      )
+
+      return coverDetailedElements
     }
 
     default:
