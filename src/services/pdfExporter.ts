@@ -371,7 +371,7 @@ export async function exportToPdf(doc: Document): Promise<void> {
         footerStack.push({
           image: doc.settings.companyLogo,
           width: 369, // 13cm em points
-          height: 71, // 2.5cm em points
+          height: 90, // 2.5cm em points
           alignment: 'center',
           margin: [0, 0, 0, 5],
         })

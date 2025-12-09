@@ -40,7 +40,7 @@ export function BlockWrapper({ block, index, children }: BlockWrapperProps) {
       ref={setNodeRef}
       style={style}
       className={`
-        group relative mb-4 rounded-lg border-2 border-transparent
+        group relative mb-4 m-2 rounded-lg border-2 border-transparent
         hover:border-gray-200 transition-all duration-150
         ${isDragging ? 'opacity-50 z-50 shadow-xl' : ''}
       `}
@@ -48,24 +48,24 @@ export function BlockWrapper({ block, index, children }: BlockWrapperProps) {
       {/* Drag handle and actions */}
       <div
         className={`
-          absolute -left-10 top-1/2 -translate-y-1/2 flex flex-col gap-1
+          absolute -left-9 top-1/2 -translate-y-1/2 flex flex-col gap-1
           opacity-0 group-hover:opacity-100 transition-opacity
         `}
       >
         <button
           {...attributes}
           {...listeners}
-          className="p-1 rounded hover:bg-gray-100 cursor-grab active:cursor-grabbing"
+          className="p-2  rounded hover:bg-gray-100 cursor-grab active:cursor-grabbing"
           title="Arrastar"
         >
-          <GripVertical size={18} className="text-gray-400" />
+          <GripVertical size={16} className="text-gray-400" />
         </button>
       </div>
 
       {/* Action buttons */}
       <div
         className={`
-          absolute -right-10 top-1/2 -translate-y-1/2 flex flex-col gap-1
+          absolute -right-9 top-1/2 -translate-y-1/2 flex flex-col gap-1
           opacity-0 group-hover:opacity-100 transition-opacity
         `}
       >
@@ -86,7 +86,7 @@ export function BlockWrapper({ block, index, children }: BlockWrapperProps) {
       </div>
 
       {/* Block content */}
-      <div className="p-2">{children}</div>
+      <div className="p-1">{children}</div>
     </div>
   )
 }
