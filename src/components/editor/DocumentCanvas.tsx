@@ -1,4 +1,4 @@
-import { useDroppable } from '@dnd-kit/core'
+import { useDroppable, useDndContext } from '@dnd-kit/core'
 import {
   SortableContext,
   verticalListSortingStrategy,
@@ -10,9 +10,16 @@ import { FileText } from 'lucide-react'
 
 export function DocumentCanvas() {
   const { document } = useDocument()
-  const { setNodeRef, isOver } = useDroppable({
+  const { setNodeRef } = useDroppable({
     id: 'canvas',
   })
+  const { active, over } = useDndContext()
+
+  // Mostrar borda azul quando arrastando item da sidebar sobre o documento
+  // over.id pode ser 'canvas' ou o ID de um bloco existente (UUID)
+  const isDraggingNewBlock = active?.id?.toString().startsWith('new-')
+  const isOverDocument = over && !over.id?.toString().startsWith('new-')
+  const showDropIndicator = isDraggingNewBlock && isOverDocument
 
   return (
     <div className="flex-1 bg-gray-100 p-4 overflow-y-auto">
@@ -21,7 +28,7 @@ export function DocumentCanvas() {
         className={`
           max-w-4xl mx-auto bg-white shadow-lg rounded-lg min-h-[800px] p-8
           transition-all duration-200
-          ${isOver ? 'ring-2 ring-blue-400 ring-offset-2' : ''}
+          ${showDropIndicator ? 'ring-2 ring-blue-400 ring-offset-2' : ''}
         `}
       >
         {document.blocks.length === 0 ? (

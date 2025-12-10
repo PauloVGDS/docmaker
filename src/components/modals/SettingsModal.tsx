@@ -19,7 +19,7 @@ export function SettingsModal({ isOpen, onClose }: SettingsModalProps) {
     if (!file) return
 
     const base64 = await fileToBase64(file)
-    const compressed = await compressImage(base64, 400, 0.9)
+    const compressed = await compressImage(base64, 800, 0.95)
 
     // Set as default and current document logo
     setDefaultLogo(compressed)

@@ -28,6 +28,7 @@ export function compressImage(
       canvas.height = height
 
       const ctx = canvas.getContext('2d')!
+      ctx.clearRect(0, 0, maxWidth, height)
       ctx.drawImage(img, 0, 0, maxWidth, height)
 
       // Preservar PNG para manter transparencia

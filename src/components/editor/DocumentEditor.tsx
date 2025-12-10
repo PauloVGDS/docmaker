@@ -7,7 +7,7 @@ import {
   PointerSensor,
   useSensor,
   useSensors,
-  closestCenter,
+  pointerWithin,
 } from '@dnd-kit/core'
 import { useDocument } from '@/contexts'
 import { BlockType, BLOCK_LABELS } from '@/types'
@@ -53,7 +53,7 @@ export function DocumentEditor() {
   return (
     <DndContext
       sensors={sensors}
-      collisionDetection={closestCenter}
+      collisionDetection={pointerWithin}
       onDragStart={handleDragStart}
       onDragEnd={handleDragEnd}
     >
