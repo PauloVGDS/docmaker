@@ -5,7 +5,8 @@ Editor de documentos técnicos com interface drag-and-drop para criação de man
 ## Funcionalidades
 
 - **Interface Drag-and-Drop** - Arraste componentes da sidebar para montar seu documento
-- **Componentes Reutilizáveis** - 6 tipos de blocos disponíveis
+- **Componentes Reutilizáveis** - 11 tipos de blocos disponíveis
+- **Painel de Estrutura** - Visualize e reorganize blocos pela barra lateral direita
 - **Exportação PDF/DOCX** - Exporte documentos formatados profissionalmente
 - **Templates** - Salve estruturas de documento para reutilizar
 - **100% Local** - Funciona no navegador sem necessidade de servidor
@@ -15,11 +16,16 @@ Editor de documentos técnicos com interface drag-and-drop para criação de man
 | Componente | Descrição |
 |------------|-----------|
 | Capa | Página inicial com imagem e título do documento |
+| Capa Detalhada | Capa com máquina, responsável e data |
 | Seção | Títulos com 3 níveis hierárquicos (H1, H2, H3) |
 | Imagem | Imagem centralizada com descrição numerada automaticamente |
 | Tabela | Tabela editável com colunas e linhas dinâmicas |
 | Lista | Lista com marcadores ou numerada |
 | Texto | Bloco de texto simples |
+| Seção + Tabela | Título de seção com tabela integrada |
+| Seção + Lista | Título de seção com lista integrada |
+| Seção + Texto | Título de seção com texto integrado |
+| Seção + Imagem | Título de seção com imagem integrada |
 
 ## Formatação de Exportação
 
@@ -57,9 +63,9 @@ npm run lint     # Executa linter
 
 ## Como Usar
 
-1. **Criar documento**: Arraste componentes da barra lateral para a área do documento
+1. **Criar documento**: Arraste componentes da barra lateral esquerda para a área do documento
 2. **Editar blocos**: Clique em qualquer bloco para editar seu conteúdo
-3. **Reordenar**: Arraste blocos pelo ícone de grip para reordenar
+3. **Reordenar**: Arraste blocos pelo ícone de grip ou use o painel "Estrutura" na barra lateral direita
 4. **Configurar logo**: Clique no ícone de engrenagem e faça upload da logo da empresa
 5. **Salvar**: Use o botão "Salvar" para guardar localmente ou exportar JSON
 6. **Exportar**: Clique em "Exportar" e escolha PDF ou DOCX
@@ -71,7 +77,7 @@ src/
 ├── components/
 │   ├── blocks/       # Componentes de cada tipo de bloco
 │   ├── editor/       # Editor principal e canvas
-│   ├── layout/       # Header e Sidebar
+│   ├── layout/       # Header, Sidebar e BlockOutline
 │   ├── modals/       # Modais (exportar, salvar, carregar, config)
 │   └── ui/           # Componentes de UI reutilizáveis
 ├── contexts/         # React Contexts (Document, Settings)
