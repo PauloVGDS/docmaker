@@ -11,7 +11,7 @@ import {
 } from '@dnd-kit/core'
 import { useDocument } from '@/contexts'
 import { BlockType, BLOCK_LABELS } from '@/types'
-import { Sidebar } from '@/components/layout'
+import { Sidebar, BlockOutline } from '@/components/layout'
 import { DocumentCanvas } from './DocumentCanvas'
 
 export function DocumentEditor() {
@@ -60,6 +60,7 @@ export function DocumentEditor() {
       <div className="flex flex-1 overflow-hidden">
         <Sidebar />
         <DocumentCanvas />
+        <BlockOutline />
       </div>
 
       <DragOverlay>
