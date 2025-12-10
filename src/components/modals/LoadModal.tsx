@@ -90,14 +90,14 @@ export function LoadModal({ isOpen, onClose }: LoadModalProps) {
         {/* Import JSON */}
         <button
           onClick={() => fileInputRef.current?.click()}
-          className="w-full flex items-center gap-4 p-4 border border-gray-200 rounded-lg hover:border-blue-400 hover:bg-blue-50 transition-colors"
+          className="w-full flex items-center gap-4 p-4 border border-gray-200 dark:border-gray-700 rounded-lg hover:border-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/30 transition-colors"
         >
-          <div className="p-3 bg-blue-100 rounded-lg">
-            <Upload size={24} className="text-blue-600" />
+          <div className="p-3 bg-blue-100 dark:bg-blue-900/30 rounded-lg">
+            <Upload size={24} className="text-blue-600 dark:text-blue-400" />
           </div>
           <div className="text-left">
-            <p className="font-medium text-gray-900">Importar Arquivo</p>
-            <p className="text-sm text-gray-500">
+            <p className="font-medium text-gray-900 dark:text-white">Importar Arquivo</p>
+            <p className="text-sm text-gray-500 dark:text-gray-400">
               Abrir arquivo JSON do computador
             </p>
           </div>
@@ -113,7 +113,7 @@ export function LoadModal({ isOpen, onClose }: LoadModalProps) {
         {/* Recent Documents */}
         {settings.recentDocuments.length > 0 && (
           <div>
-            <h3 className="font-medium text-gray-700 mb-2 flex items-center gap-2">
+            <h3 className="font-medium text-gray-700 dark:text-gray-300 mb-2 flex items-center gap-2">
               <FileText size={16} />
               Documentos Recentes
             </h3>
@@ -122,17 +122,17 @@ export function LoadModal({ isOpen, onClose }: LoadModalProps) {
                 <div
                   key={doc.id}
                   onClick={() => handleLoadRecent(doc.id)}
-                  className="flex items-center justify-between p-3 border border-gray-200 rounded-lg hover:border-blue-400 hover:bg-blue-50 transition-colors cursor-pointer"
+                  className="flex items-center justify-between p-3 border border-gray-200 dark:border-gray-700 rounded-lg hover:border-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/30 transition-colors cursor-pointer"
                 >
                   <div>
-                    <p className="font-medium text-gray-900">{doc.title}</p>
-                    <p className="text-xs text-gray-500">
+                    <p className="font-medium text-gray-900 dark:text-white">{doc.title}</p>
+                    <p className="text-xs text-gray-500 dark:text-gray-400">
                       {new Date(doc.updatedAt).toLocaleDateString('pt-BR')}
                     </p>
                   </div>
                   <button
                     onClick={(e) => handleDeleteRecent(doc.id, e)}
-                    className="p-1 hover:bg-red-100 rounded"
+                    className="p-1 hover:bg-red-100 dark:hover:bg-red-900/30 rounded"
                   >
                     <Trash2 size={16} className="text-red-400" />
                   </button>
@@ -145,7 +145,7 @@ export function LoadModal({ isOpen, onClose }: LoadModalProps) {
         {/* Templates */}
         {settings.templates.length > 0 && (
           <div>
-            <h3 className="font-medium text-gray-700 mb-2 flex items-center gap-2">
+            <h3 className="font-medium text-gray-700 dark:text-gray-300 mb-2 flex items-center gap-2">
               <BookTemplate size={16} />
               Templates
             </h3>
@@ -154,15 +154,15 @@ export function LoadModal({ isOpen, onClose }: LoadModalProps) {
                 <div
                   key={template.id}
                   onClick={() => handleLoadTemplate(template)}
-                  className="flex items-center justify-between p-3 border border-gray-200 rounded-lg hover:border-purple-400 hover:bg-purple-50 transition-colors cursor-pointer"
+                  className="flex items-center justify-between p-3 border border-gray-200 dark:border-gray-700 rounded-lg hover:border-purple-400 hover:bg-purple-50 dark:hover:bg-purple-900/30 transition-colors cursor-pointer"
                 >
                   <div>
-                    <p className="font-medium text-gray-900">{template.name}</p>
-                    <p className="text-xs text-gray-500">{template.description}</p>
+                    <p className="font-medium text-gray-900 dark:text-white">{template.name}</p>
+                    <p className="text-xs text-gray-500 dark:text-gray-400">{template.description}</p>
                   </div>
                   <button
                     onClick={(e) => handleDeleteTemplate(template.id, e)}
-                    className="p-1 hover:bg-red-100 rounded"
+                    className="p-1 hover:bg-red-100 dark:hover:bg-red-900/30 rounded"
                   >
                     <Trash2 size={16} className="text-red-400" />
                   </button>
@@ -173,7 +173,7 @@ export function LoadModal({ isOpen, onClose }: LoadModalProps) {
         )}
 
         {settings.recentDocuments.length === 0 && settings.templates.length === 0 && (
-          <p className="text-center text-gray-500 py-4">
+          <p className="text-center text-gray-500 dark:text-gray-400 py-4">
             Nenhum documento ou template salvo ainda.
           </p>
         )}

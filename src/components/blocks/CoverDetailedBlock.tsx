@@ -1,8 +1,8 @@
 import { useRef } from 'react'
-import { Upload, X } from 'lucide-react'
+import { Upload, X, Calendar, ImageIcon } from 'lucide-react'
 import { CoverDetailedBlock as CoverDetailedBlockType } from '@/types'
 import { useDocument } from '@/contexts'
-import { fileToBase64, compressImage } from '@/utils'
+import { fileToBase64, compressImage, loadDefaultImage } from '@/utils'
 
 interface CoverDetailedBlockProps {
   block: CoverDetailedBlockType
@@ -23,6 +23,15 @@ export function CoverDetailedBlock({ block }: CoverDetailedBlockProps) {
 
   const handleRemoveImage = () => {
     updateBlock<CoverDetailedBlockType>(block.id, { image: null })
+  }
+
+  const handleSetCurrentDate = () => {
+    updateBlock<CoverDetailedBlockType>(block.id, { date: new Date().toLocaleDateString('pt-BR') })
+  }
+
+  const handleLoadDefaultImage = async () => {
+    const base64 = await loadDefaultImage('cover')
+    updateBlock<CoverDetailedBlockType>(block.id, { image: base64 })
   }
 
   return (
@@ -83,6 +92,13 @@ export function CoverDetailedBlock({ block }: CoverDetailedBlockProps) {
                   className="flex-1 text-sm bg-transparent border-b border-gray-500 outline-none focus:border-white text-white"
                   placeholder="Data do documento"
                 />
+                <button
+                  onClick={handleSetCurrentDate}
+                  className="p-1 text-gray-400 hover:text-white transition-colors"
+                  title="Usar data atual"
+                >
+                  <Calendar size={16} />
+                </button>
               </div>
             </div>
           </div>
@@ -97,6 +113,13 @@ export function CoverDetailedBlock({ block }: CoverDetailedBlockProps) {
             <Upload size={64} className="text-gray-400 mb-3" />
             <span className="text-gray-400 text-lg">Clique para adicionar imagem de capa</span>
             <span className="text-gray-500 text-sm mt-1">A imagem preenchera toda a primeira pagina</span>
+          </button>
+          <button
+            onClick={handleLoadDefaultImage}
+            className="mt-3 flex items-center gap-2 text-sm text-blue-400 hover:text-blue-300 transition-colors"
+          >
+            <ImageIcon size={16} />
+            Usar imagem padrão
           </button>
 
           {/* Titulo */}
@@ -139,6 +162,13 @@ export function CoverDetailedBlock({ block }: CoverDetailedBlockProps) {
                 className="flex-1 text-sm bg-transparent border-b border-gray-600 outline-none focus:border-gray-400 text-gray-300"
                 placeholder="Data do documento"
               />
+              <button
+                onClick={handleSetCurrentDate}
+                className="p-1 text-gray-500 hover:text-gray-300 transition-colors"
+                title="Usar data atual"
+              >
+                <Calendar size={16} />
+              </button>
             </div>
           </div>
         </div>

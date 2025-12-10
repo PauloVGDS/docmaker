@@ -6,7 +6,7 @@ function App() {
   return (
     <SettingsProvider>
       <DocumentProvider>
-        <div className="h-screen flex flex-col bg-gray-100">
+        <div className="h-screen flex flex-col bg-gray-100 dark:bg-gray-900">
           <Header />
           <DocumentEditor />
         </div>

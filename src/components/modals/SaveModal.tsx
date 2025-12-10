@@ -87,14 +87,14 @@ export function SaveModal({ isOpen, onClose }: SaveModalProps) {
       <div className="space-y-4">
         <button
           onClick={handleSaveLocal}
-          className="w-full flex items-center gap-4 p-4 border border-gray-200 rounded-lg hover:border-blue-400 hover:bg-blue-50 transition-colors"
+          className="w-full flex items-center gap-4 p-4 border border-gray-200 dark:border-gray-700 rounded-lg hover:border-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/30 transition-colors"
         >
-          <div className="p-3 bg-green-100 rounded-lg">
-            <Save size={24} className="text-green-600" />
+          <div className="p-3 bg-green-100 dark:bg-green-900/30 rounded-lg">
+            <Save size={24} className="text-green-600 dark:text-green-400" />
           </div>
           <div className="text-left">
-            <p className="font-medium text-gray-900">Salvar Localmente</p>
-            <p className="text-sm text-gray-500">
+            <p className="font-medium text-gray-900 dark:text-white">Salvar Localmente</p>
+            <p className="text-sm text-gray-500 dark:text-gray-400">
               Salva no navegador para continuar depois
             </p>
           </div>
@@ -102,31 +102,31 @@ export function SaveModal({ isOpen, onClose }: SaveModalProps) {
 
         <button
           onClick={handleExportJson}
-          className="w-full flex items-center gap-4 p-4 border border-gray-200 rounded-lg hover:border-blue-400 hover:bg-blue-50 transition-colors"
+          className="w-full flex items-center gap-4 p-4 border border-gray-200 dark:border-gray-700 rounded-lg hover:border-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/30 transition-colors"
         >
-          <div className="p-3 bg-blue-100 rounded-lg">
-            <Download size={24} className="text-blue-600" />
+          <div className="p-3 bg-blue-100 dark:bg-blue-900/30 rounded-lg">
+            <Download size={24} className="text-blue-600 dark:text-blue-400" />
           </div>
           <div className="text-left">
-            <p className="font-medium text-gray-900">Exportar JSON</p>
-            <p className="text-sm text-gray-500">
+            <p className="font-medium text-gray-900 dark:text-white">Exportar JSON</p>
+            <p className="text-sm text-gray-500 dark:text-gray-400">
               Baixa o arquivo para backup ou transferência
             </p>
           </div>
         </button>
 
-        <div className="border-t pt-4">
+        <div className="border-t dark:border-gray-700 pt-4">
           {!showTemplateInput ? (
             <button
               onClick={() => setShowTemplateInput(true)}
-              className="w-full flex items-center gap-4 p-4 border border-gray-200 rounded-lg hover:border-purple-400 hover:bg-purple-50 transition-colors"
+              className="w-full flex items-center gap-4 p-4 border border-gray-200 dark:border-gray-700 rounded-lg hover:border-purple-400 hover:bg-purple-50 dark:hover:bg-purple-900/30 transition-colors"
             >
-              <div className="p-3 bg-purple-100 rounded-lg">
-                <BookTemplate size={24} className="text-purple-600" />
+              <div className="p-3 bg-purple-100 dark:bg-purple-900/30 rounded-lg">
+                <BookTemplate size={24} className="text-purple-600 dark:text-purple-400" />
               </div>
               <div className="text-left">
-                <p className="font-medium text-gray-900">Salvar como Template</p>
-                <p className="text-sm text-gray-500">
+                <p className="font-medium text-gray-900 dark:text-white">Salvar como Template</p>
+                <p className="text-sm text-gray-500 dark:text-gray-400">
                   Reutilize esta estrutura em novos documentos
                 </p>
               </div>

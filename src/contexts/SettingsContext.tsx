@@ -1,11 +1,12 @@
 import { createContext, useContext, useState, useCallback, useEffect, ReactNode } from 'react'
-import { AppSettings, Template, DocumentMeta, DEFAULT_APP_SETTINGS } from '@/types'
+import { AppSettings, Template, DocumentMeta, Theme, DEFAULT_APP_SETTINGS } from '@/types'
 
 const STORAGE_KEY = 'docmaker_settings'
 
 interface SettingsContextType {
   settings: AppSettings
   setDefaultLogo: (logo: string | null) => void
+  setTheme: (theme: Theme) => void
   addRecentDocument: (doc: DocumentMeta) => void
   removeRecentDocument: (id: string) => void
   addTemplate: (template: Template) => void
@@ -42,8 +43,26 @@ export function SettingsProvider({ children }: { children: ReactNode }) {
     saveSettings(settings)
   }, [settings])
 
+  // Apply theme on initial load
+  useEffect(() => {
+    if (settings.theme === 'dark') {
+      document.documentElement.classList.add('dark')
+    } else {
+      document.documentElement.classList.remove('dark')
+    }
+  }, [])
+
   const setDefaultLogo = useCallback((logo: string | null) => {
     setSettings((prev) => ({ ...prev, defaultLogo: logo }))
+  }, [])
+
+  const setTheme = useCallback((theme: Theme) => {
+    setSettings((prev) => ({ ...prev, theme }))
+    if (theme === 'dark') {
+      document.documentElement.classList.add('dark')
+    } else {
+      document.documentElement.classList.remove('dark')
+    }
   }, [])
 
   const addRecentDocument = useCallback((doc: DocumentMeta) => {
@@ -91,6 +110,7 @@ export function SettingsProvider({ children }: { children: ReactNode }) {
       value={{
         settings,
         setDefaultLogo,
+        setTheme,
         addRecentDocument,
         removeRecentDocument,
         addTemplate,

@@ -82,21 +82,21 @@ function OutlineItem({ block, index }: OutlineItemProps) {
       ref={setNodeRef}
       style={style}
       className={`
-        flex items-center gap-2 p-2 bg-white border border-gray-200 rounded-md
-        hover:border-blue-400 hover:bg-blue-50 transition-colors
+        flex items-center gap-2 p-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-md
+        hover:border-blue-400 dark:hover:border-blue-500 hover:bg-blue-50 dark:hover:bg-blue-900/30 transition-colors
         ${isDragging ? 'opacity-50 shadow-lg z-50' : ''}
       `}
     >
       <button
         {...attributes}
         {...listeners}
-        className="p-1 text-gray-400 hover:text-gray-600 cursor-grab active:cursor-grabbing"
+        className="p-1 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 cursor-grab active:cursor-grabbing"
       >
         <GripVertical size={14} />
       </button>
       <span className="text-xs text-gray-400 w-5">{index + 1}</span>
-      <Icon size={14} className="text-blue-600 flex-shrink-0" />
-      <span className="text-sm text-gray-700 truncate flex-1" title={title}>
+      <Icon size={14} className="text-blue-600 dark:text-blue-400 flex-shrink-0" />
+      <span className="text-sm text-gray-700 dark:text-gray-200 truncate flex-1" title={title}>
         {title}
       </span>
     </div>
@@ -108,8 +108,8 @@ export function BlockOutline() {
 
   if (document.blocks.length === 0) {
     return (
-      <aside className="w-56 bg-gray-50 border-l border-gray-200 p-4 flex flex-col h-full overflow-hidden">
-        <h2 className="font-semibold text-gray-700 mb-4 text-sm">Estrutura</h2>
+      <aside className="w-56 bg-gray-50 dark:bg-gray-900 border-l border-gray-200 dark:border-gray-700 p-4 flex flex-col h-full overflow-hidden">
+        <h2 className="font-semibold text-gray-700 dark:text-gray-200 mb-4 text-sm">Estrutura</h2>
         <p className="text-xs text-gray-400 text-center py-8">
           Nenhum componente adicionado
         </p>
@@ -118,9 +118,9 @@ export function BlockOutline() {
   }
 
   return (
-    <aside className="w-56 bg-gray-50 border-l border-gray-200 p-4 flex flex-col h-full overflow-hidden">
-      <h2 className="font-semibold text-gray-700 mb-2 text-sm">Estrutura</h2>
-      <p className="text-xs text-gray-500 mb-3">
+    <aside className="w-56 bg-gray-50 dark:bg-gray-900 border-l border-gray-200 dark:border-gray-700 p-4 flex flex-col h-full overflow-hidden">
+      <h2 className="font-semibold text-gray-700 dark:text-gray-200 mb-2 text-sm">Estrutura</h2>
+      <p className="text-xs text-gray-500 dark:text-gray-400 mb-3">
         Arraste para reorganizar
       </p>
       <div className="flex flex-col gap-1 overflow-y-auto flex-1">

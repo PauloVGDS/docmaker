@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { FileText, Download, Upload, Settings, FilePlus, Save } from 'lucide-react'
-import { Button } from '@/components/ui'
+import { Button, Modal } from '@/components/ui'
 import { useDocument } from '@/contexts'
 import { ExportModal } from '@/components/modals/ExportModal'
 import { SettingsModal } from '@/components/modals/SettingsModal'
@@ -13,27 +13,33 @@ export function Header() {
   const [isSettingsOpen, setIsSettingsOpen] = useState(false)
   const [isSaveOpen, setIsSaveOpen] = useState(false)
   const [isLoadOpen, setIsLoadOpen] = useState(false)
+  const [isConfirmNewOpen, setIsConfirmNewOpen] = useState(false)
+
+  const handleNewDocument = () => {
+    resetDocument()
+    setIsConfirmNewOpen(false)
+  }
 
   return (
     <>
-      <header className="h-14 bg-white border-b border-gray-200 flex items-center justify-between px-4">
+      <header className="h-14 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between px-4">
         <div className="flex items-center gap-4">
-          <div className="flex items-center gap-2 text-blue-600">
+          <div className="flex items-center gap-2 text-blue-600 dark:text-blue-400">
             <FileText size={24} />
             <span className="font-bold text-lg">DocMaker</span>
           </div>
-          <div className="h-6 w-px bg-gray-300" />
+          <div className="h-6 w-px bg-gray-300 dark:bg-gray-600" />
           <input
             type="text"
             value={document.title}
             onChange={(e) => updateTitle(e.target.value)}
-            className="text-lg font-medium bg-transparent border-none outline-none focus:ring-0 w-64"
+            className="text-lg font-medium bg-transparent border-none outline-none focus:ring-0 w-64 dark:text-white"
             placeholder="Título do documento"
           />
         </div>
 
         <div className="flex items-center gap-2">
-          <Button variant="ghost" size="sm" onClick={() => resetDocument()}>
+          <Button variant="ghost" size="sm" onClick={() => setIsConfirmNewOpen(true)}>
             <FilePlus size={18} />
             Novo
           </Button>
@@ -49,7 +55,7 @@ export function Header() {
             <Download size={18} />
             Exportar
           </Button>
-          <div className="h-6 w-px bg-gray-300 mx-2" />
+          <div className="h-6 w-px bg-gray-300 dark:bg-gray-600 mx-2" />
           <Button variant="ghost" size="sm" onClick={() => setIsSettingsOpen(true)}>
             <Settings size={18} />
           </Button>
@@ -60,6 +66,26 @@ export function Header() {
       <SettingsModal isOpen={isSettingsOpen} onClose={() => setIsSettingsOpen(false)} />
       <SaveModal isOpen={isSaveOpen} onClose={() => setIsSaveOpen(false)} />
       <LoadModal isOpen={isLoadOpen} onClose={() => setIsLoadOpen(false)} />
+
+      <Modal
+        isOpen={isConfirmNewOpen}
+        onClose={() => setIsConfirmNewOpen(false)}
+        title="Criar Novo Documento"
+        footer={
+          <div className="flex gap-2 justify-end">
+            <Button variant="secondary" onClick={() => setIsConfirmNewOpen(false)}>
+              Cancelar
+            </Button>
+            <Button variant="danger" onClick={handleNewDocument}>
+              Criar Novo
+            </Button>
+          </div>
+        }
+      >
+        <p className="text-gray-600 dark:text-gray-400">
+          Tem certeza que deseja criar um novo documento? O documento atual será perdido se não estiver salvo.
+        </p>
+      </Modal>
     </>
   )
 }

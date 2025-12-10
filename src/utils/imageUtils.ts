@@ -7,6 +7,17 @@ export function fileToBase64(file: File): Promise<string> {
   })
 }
 
+export async function loadDefaultImage(name: 'cover' | 'footer'): Promise<string> {
+  const filename = name === 'cover' ? 'blipsPage.jpg' : 'blipsFooter.png'
+  const response = await fetch(`/images/${filename}`)
+  const blob = await response.blob()
+  return new Promise((resolve) => {
+    const reader = new FileReader()
+    reader.onloadend = () => resolve(reader.result as string)
+    reader.readAsDataURL(blob)
+  })
+}
+
 export function compressImage(
   base64: string,
   maxWidth: number = 1200,

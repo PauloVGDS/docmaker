@@ -22,7 +22,7 @@ export function DocumentCanvas() {
   const showDropIndicator = isDraggingNewBlock && isOverDocument
 
   return (
-    <div className="flex-1 bg-gray-100 p-4 overflow-y-auto">
+    <div className="flex-1 bg-gray-100 dark:bg-gray-800 p-4 overflow-y-auto">
       <div
         ref={setNodeRef}
         className={`

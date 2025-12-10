@@ -47,21 +47,21 @@ export function ExportModal({ isOpen, onClose }: ExportModalProps) {
       title="Exportar Documento"
     >
       <div className="space-y-4">
-        <p className="text-gray-600 mb-4">
+        <p className="text-gray-600 dark:text-gray-400 mb-4">
           Escolha o formato para exportar "{document.title}"
         </p>
 
         <button
           onClick={handleExportPdf}
           disabled={isExporting}
-          className="w-full flex items-center gap-4 p-4 border border-gray-200 rounded-lg hover:border-blue-400 hover:bg-blue-50 transition-colors disabled:opacity-50"
+          className="w-full flex items-center gap-4 p-4 border border-gray-200 dark:border-gray-700 rounded-lg hover:border-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/30 transition-colors disabled:opacity-50"
         >
-          <div className="p-3 bg-red-100 rounded-lg">
-            <FileText size={24} className="text-red-600" />
+          <div className="p-3 bg-red-100 dark:bg-red-900/30 rounded-lg">
+            <FileText size={24} className="text-red-600 dark:text-red-400" />
           </div>
           <div className="text-left">
-            <p className="font-medium text-gray-900">PDF</p>
-            <p className="text-sm text-gray-500">
+            <p className="font-medium text-gray-900 dark:text-white">PDF</p>
+            <p className="text-sm text-gray-500 dark:text-gray-400">
               Formato ideal para impressão e compartilhamento
             </p>
           </div>
@@ -70,21 +70,21 @@ export function ExportModal({ isOpen, onClose }: ExportModalProps) {
         <button
           onClick={handleExportDocx}
           disabled={isExporting}
-          className="w-full flex items-center gap-4 p-4 border border-gray-200 rounded-lg hover:border-blue-400 hover:bg-blue-50 transition-colors disabled:opacity-50"
+          className="w-full flex items-center gap-4 p-4 border border-gray-200 dark:border-gray-700 rounded-lg hover:border-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/30 transition-colors disabled:opacity-50"
         >
-          <div className="p-3 bg-blue-100 rounded-lg">
-            <FileIcon size={24} className="text-blue-600" />
+          <div className="p-3 bg-blue-100 dark:bg-blue-900/30 rounded-lg">
+            <FileIcon size={24} className="text-blue-600 dark:text-blue-400" />
           </div>
           <div className="text-left">
-            <p className="font-medium text-gray-900">DOCX</p>
-            <p className="text-sm text-gray-500">
+            <p className="font-medium text-gray-900 dark:text-white">DOCX</p>
+            <p className="text-sm text-gray-500 dark:text-gray-400">
               Formato editável do Microsoft Word
             </p>
           </div>
         </button>
 
         {isExporting && (
-          <p className="text-center text-gray-500">Exportando...</p>
+          <p className="text-center text-gray-500 dark:text-gray-400">Exportando...</p>
         )}
       </div>
     </Modal>

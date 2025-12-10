@@ -35,16 +35,16 @@ export function Modal({ isOpen, onClose, title, children, footer }: ModalProps) 
         className="absolute inset-0 bg-black/50"
         onClick={onClose}
       />
-      <div className="relative bg-white rounded-lg shadow-xl max-w-lg w-full mx-4 max-h-[90vh] flex flex-col">
-        <div className="flex items-center justify-between p-4 border-b">
-          <h2 className="text-lg font-semibold text-gray-900">{title}</h2>
+      <div className="relative bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-lg w-full mx-4 max-h-[90vh] flex flex-col">
+        <div className="flex items-center justify-between p-4 border-b dark:border-gray-700">
+          <h2 className="text-lg font-semibold text-gray-900 dark:text-white">{title}</h2>
           <Button variant="ghost" size="sm" onClick={onClose}>
             <X size={20} />
           </Button>
         </div>
-        <div className="p-4 overflow-y-auto flex-1">{children}</div>
+        <div className="p-4 overflow-y-auto flex-1 dark:text-gray-200">{children}</div>
         {footer && (
-          <div className="flex justify-end gap-2 p-4 border-t">{footer}</div>
+          <div className="flex justify-end gap-2 p-4 border-t dark:border-gray-700">{footer}</div>
         )}
       </div>
     </div>
